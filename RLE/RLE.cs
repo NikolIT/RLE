@@ -14,26 +14,27 @@ namespace RLE
             List<byte> resultList = new List<byte>();
 
             resultList.Add(Byte.MinValue);
-
+            byteImgList.Add(Byte.MinValue);
+            byteImgList.Insert(0, Byte.MinValue);
             //List<byte> tempList = new List<byte>();
             byte numberBytes1 = 1;//змінити назви
             byte numberBytes2 = 1;
             //byte tempbyte = byteImgList[0];
             
-            for (int i = 1; i < byteImgList.Count; i++)
+            for (int i = 1; i < byteImgList.Count - 1; i++)
             {
-                if (byteImgList[i - 1] == byteImgList[i])
+                if (byteImgList[i - 1] == byteImgList[i] || byteImgList[i] == byteImgList[i + 1])
                 {
                     numberBytes2 = 1;
                     if (numberBytes1 == 1)
                         resultList.AddRange(new List<byte> { Byte.MinValue, Byte.MinValue });
 
-                    numberBytes1++;
+                    
 
                     resultList[resultList.Count - 2] = numberBytes1;
-                    resultList[resultList.Count - 1] = byteImgList[i - 1];
+                    resultList[resultList.Count - 1] = byteImgList[i];
 
-                    
+                    numberBytes1++;
                     continue;
                 }
                 else
@@ -43,7 +44,7 @@ namespace RLE
                     if(numberBytes2 == 1)
                         resultList.AddRange(new List<byte> { Byte.MinValue, Byte.MinValue});
 
-                    resultList.Add(byteImgList[i - 1]);
+                    resultList.Add(byteImgList[i]);
                     resultList[resultList.Count - (numberBytes2 + 1)] = numberBytes2;
                     
 
@@ -55,7 +56,7 @@ namespace RLE
 
             }
 
-
+            resultList.RemoveAt(0);
             return resultList;
         }
     }
