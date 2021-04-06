@@ -15,20 +15,31 @@ namespace RLE
             List<byte> byteListInf = byteListInfOrig.ToList();
 
             byteListInf.InsertRange(0, new List<byte> { Byte.MinValue, Byte.MinValue });
-            byte numberBytes = 0;
+            byteListInf.Add(Byte.MinValue);
+            int numberBytes = 0;
 
-            for (int i = 2; i < byteListInf.Count; i++)
+            for (int i = 2; i < byteListInf.Count - 1; i++)
             {
                 if (byteListInf[i] == byteListInf[i - 1] && byteListInf[i] == byteListInf[i - 2])
                 {
-                    if (numberBytes == 0)
+                    
+                    if (numberBytes == Byte.MaxValue && byteListInf[i] == byteListInf[i + 1])
                     {
-                        //result.AddRange(byteListInf.GetRange(i - 2, 2)); 
+                        i++;
+                        numberBytes = -1;
+                        result.Add(byteListInf[i]);
+                        result.Add(byteListInf[i]);
                         result.Add(Byte.MinValue);
                     }
-                        
+
                     numberBytes++;
-                    result[result.Count - 1] = numberBytes;
+                    result[result.Count - 1] = (byte)numberBytes;
+
+                }else
+                if (byteListInf[i] == byteListInf[i - 1])
+                {
+                    result.Add(byteListInf[i]);
+                    result.Add(Byte.MinValue);
                 }
                 else
                 {

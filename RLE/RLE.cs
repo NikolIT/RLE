@@ -28,10 +28,11 @@ namespace RLE
                 if (byteList[i - 1] == byteList[i] || byteList[i] == byteList[i + 1])
                 {
                     numberBytes2 = 1;
-                    if (numberBytes1 == 1)
+                    if (numberBytes1 == 1 || numberBytes1 == Byte.MaxValue)
+                    {
+                        numberBytes1 = 1;
                         resultList.AddRange(new List<byte> { Byte.MinValue, Byte.MinValue });
-
-                    
+                    }
 
                     resultList[resultList.Count - 2] = numberBytes1;
                     resultList[resultList.Count - 1] = byteList[i];
@@ -43,8 +44,11 @@ namespace RLE
                 {
                     numberBytes1 = 1;
 
-                    if(numberBytes2 == 1)
-                        resultList.AddRange(new List<byte> { Byte.MinValue, Byte.MinValue});
+                    if(numberBytes2 == 1 || numberBytes2 == Byte.MaxValue)
+                    {
+                        numberBytes2 = 1;
+                        resultList.AddRange(new List<byte> { Byte.MinValue, Byte.MinValue });
+                    }                      
 
                     resultList.Add(byteList[i]);
                     resultList[resultList.Count - (numberBytes2 + 1)] = numberBytes2;
@@ -76,7 +80,7 @@ namespace RLE
                     i++;
                     for (int j = 0; j < numbereBytes; j++)
                     {
-                        resultList.Add(byteList[++i]);
+                        resultList.Add(byteList[++i]);// ++i
                     }
                 }
                 else
